@@ -1,3 +1,0 @@
-
-scsharpsquid:S1210"QWhen implementing IComparable, you should also override ==, !=, <, <=, >, and >=.(Àø›õùÿÿÿÿ
-acsharpsquid:S927F"ERename parameter 'other' to 'obj' to match the interface declaration.(ˆÁÝ¨

@@ -1,4 +1,5 @@
-﻿using Muflone.Core;
+﻿using System;
+using Muflone.Core;
 
 namespace BrewUp.Shared.DomainIds;
 

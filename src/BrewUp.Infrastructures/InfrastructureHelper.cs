@@ -1,7 +1,6 @@
 ﻿using BrewUp.Infrastructures.MongoDb;
 using Microsoft.Extensions.DependencyInjection;
-using Muflone.Eventstore;
-using Muflone.Saga.Persistence.MongoDb;
+using Muflone.Eventstore.gRPC;
 
 namespace BrewUp.Infrastructures;
 
@@ -12,7 +11,6 @@ public static class InfrastructureHelper
 		EventStoreSettings eventStoreSettings)
 	{
 		services.AddMongoDb(mongoDbSettings);
-		services.AddMongoSagaStateRepository(new MongoSagaStateRepositoryOptions(mongoDbSettings.ConnectionString, mongoDbSettings.DatabaseName));
 		services.AddMufloneEventStore(eventStoreSettings.ConnectionString);
 
 		return services;

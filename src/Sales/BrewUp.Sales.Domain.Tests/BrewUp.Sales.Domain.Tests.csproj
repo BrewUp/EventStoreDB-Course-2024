@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+        <PackageReference Include="Muflone.Eventstore.gRPC" Version="8.0.0" />
         <PackageReference Include="Muflone.SpecificationTests" Version="8.0.1" />
         <PackageReference Include="NUnit" Version="4.1.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />

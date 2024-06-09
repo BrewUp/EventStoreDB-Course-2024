@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
     <PackageReference Include="Muflone" Version="8.0.2" />
+    <PackageReference Include="Muflone.Eventstore.gRPC" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

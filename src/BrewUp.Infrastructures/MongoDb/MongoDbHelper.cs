@@ -3,7 +3,7 @@ using BrewUp.Shared.ReadModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
-using Muflone.Eventstore.Persistence;
+using Muflone.Eventstore.gRPC.Persistence;
 
 namespace BrewUp.Infrastructures.MongoDb;
 

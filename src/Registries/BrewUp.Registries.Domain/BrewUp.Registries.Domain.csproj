@@ -11,4 +11,8 @@
       <ProjectReference Include="..\BrewUp.Registries.ReadModel\BrewUp.Registries.ReadModel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Muflone.Eventstore.gRPC" Version="8.0.0" />
+    </ItemGroup>
+
 </Project>

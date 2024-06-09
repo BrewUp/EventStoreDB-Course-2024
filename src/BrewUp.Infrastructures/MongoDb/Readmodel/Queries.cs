@@ -6,15 +6,11 @@ using MongoDB.Driver.Linq;
 
 namespace BrewUp.Infrastructures.MongoDb.Readmodel;
 
-public abstract class Queries<T> : IQueries<T> where T : EntityBase
+public abstract class Queries<T>(IMongoClient mongoClient) : IQueries<T>
+	where T : EntityBase
 {
-	protected readonly IMongoClient MongoClient;
+	protected readonly IMongoClient MongoClient = mongoClient;
 	protected IMongoDatabase Database;
-
-	protected Queries(IMongoClient mongoClient)
-	{
-		MongoClient = mongoClient;
-	}
 
 	public string DatabaseName { get; private set; }
 

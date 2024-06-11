@@ -41,3 +41,7 @@ MSales/BrewUp.Sales.Domain/CommandHandlers/CompleteSalesOrderCommandHandler.cs,
 `Warehouses/BrewUp.Warehouses.Domain/CommandHandlers/CreateBeerAvailabilityCommandHandlerAsync.cs,0\b\0bd8be4002d410bf052ffbd13c4e83f3fec090d1
 Ž
 ^Warehouses/BrewUp.Warehouses.Domain/CommandHandlers/LoadBeerAvailabilityCommandHandlerAsync.cs,b\d\bd4cfe83648a1a90652b81fbbe87f4f4e5a7d97a
+F
+BrewUp.Rest/Program.cs,8\0\80df09904b897c1b4703946776cc3d492b3c1e93
+L
+BrewUp.Rest/appsettings.json,1\c\1c15916ea9b2acfb4e2c0631addd458c1da51d44

@@ -21,4 +21,4 @@ In this solution we used two different libraries
 
 # Run Solution
 > - docker build -t brewup .  
-> - docker run --rm -p 8000:80 brewup
+> - docker run --rm -p 5000:8080 brewup

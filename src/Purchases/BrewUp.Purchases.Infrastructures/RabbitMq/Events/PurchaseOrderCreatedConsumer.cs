@@ -8,17 +8,15 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Purchases.Infrastructures.RabbitMq.Events;
 
-public sealed class PurchaseOrderCreatedConsumer : DomainEventsConsumerBase<PurchaseOrderCreated>
-{
-    protected override IEnumerable<IDomainEventHandlerAsync<PurchaseOrderCreated>> HandlersAsync { get; }
-
-    public PurchaseOrderCreatedConsumer(IPurchaseOrderService purchaseOrderService,
-        IMufloneConnectionFactory connectionFactory, ILoggerFactory loggerFactory) : base(connectionFactory,
+public sealed class PurchaseOrderCreatedConsumer(
+    IPurchaseOrderService purchaseOrderService,
+    IMufloneConnectionFactory connectionFactory,
+    ILoggerFactory loggerFactory)
+    : DomainEventsConsumerBase<PurchaseOrderCreated>(connectionFactory,
         loggerFactory)
+{
+    protected override IEnumerable<IDomainEventHandlerAsync<PurchaseOrderCreated>> HandlersAsync { get; } = new List<IDomainEventHandlerAsync<PurchaseOrderCreated>>
     {
-        HandlersAsync = new List<IDomainEventHandlerAsync<PurchaseOrderCreated>>
-        {
-            new PurchaseOrderCreatedEventHandler(loggerFactory, purchaseOrderService)
-        };
-    }
+        new PurchaseOrderCreatedEventHandler(loggerFactory, purchaseOrderService)
+    };
 }

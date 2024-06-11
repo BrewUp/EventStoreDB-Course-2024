@@ -5,24 +5,18 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Production.Messages.Events;
 
-public sealed class ProductionOrderCreated : DomainEvent
+public sealed class ProductionOrderCreated(
+    ProductionOrderId aggregateId,
+    Guid correlationId,
+    ProductionOrderNumber productionOrderNumber,
+    OrderDate orderDate,
+    IEnumerable<ProductionOrderRow> rows)
+    : DomainEvent(aggregateId, correlationId)
 {
-    public readonly ProductionOrderId ProductionOrderId;
-    public readonly ProductionOrderNumber ProductionOrderNumber;
+    public readonly ProductionOrderId ProductionOrderId = aggregateId;
+    public readonly ProductionOrderNumber ProductionOrderNumber = productionOrderNumber;
     
-    public readonly OrderDate OrderDate;
+    public readonly OrderDate OrderDate = orderDate;
     
-    public readonly IEnumerable<ProductionOrderRow> Rows;
-
-    public ProductionOrderCreated(ProductionOrderId aggregateId, Guid correlationId,
-        ProductionOrderNumber productionOrderNumber, OrderDate orderDate, IEnumerable<ProductionOrderRow> rows) 
-        : base(aggregateId, correlationId)
-    {
-        ProductionOrderId = aggregateId;
-        ProductionOrderNumber = productionOrderNumber;
-
-        OrderDate = orderDate;
-        
-        Rows = rows;
-    }
+    public readonly IEnumerable<ProductionOrderRow> Rows = rows;
 }

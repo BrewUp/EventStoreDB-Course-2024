@@ -7,17 +7,14 @@ using Muflone.Persistence;
 
 namespace BrewUp.Sales.Acl.EventHandlers;
 
-public sealed class BeerAvailabilityCommunicatedEventHandler : IntegrationEventHandlerBase<BeerAvailabilityCommunicated>
+public sealed class BeerAvailabilityCommunicatedEventHandler(
+    ILoggerFactory loggerFactory,
+    IServiceBus serviceBus,
+    IQueries<SalesBeerAvailability> queries)
+    : IntegrationEventHandlerBase<BeerAvailabilityCommunicated>(loggerFactory)
 {
-    private readonly IServiceBus _serviceBus;
-    private readonly IQueries<SalesBeerAvailability> _queries;
-    
-    public BeerAvailabilityCommunicatedEventHandler(ILoggerFactory loggerFactory,
-        IServiceBus serviceBus, IQueries<SalesBeerAvailability> queries) : base(loggerFactory)
-    {
-        _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
-        _queries = queries ?? throw new ArgumentNullException(nameof(queries));
-    }
+    private readonly IServiceBus _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
+    private readonly IQueries<SalesBeerAvailability> _queries = queries ?? throw new ArgumentNullException(nameof(queries));
 
     public override async Task HandleAsync(BeerAvailabilityCommunicated @event, CancellationToken cancellationToken = new())
     {

@@ -6,27 +6,20 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Sales.Messages.Events;
 
-public sealed class SalesOrderCreated : DomainEvent
+public sealed class SalesOrderCreated(
+    SalesOrderId aggregateId,
+    SalesOrderNumber salesOrderNumber,
+    PubId pubId,
+    PubName pubName,
+    OrderDate orderDate,
+    IEnumerable<SalesOrderRowDto> rows)
+    : DomainEvent(aggregateId)
 {
-    public readonly SalesOrderId SalesOrderId;
-    public readonly SalesOrderNumber SalesOrderNumber;
-    public readonly PubId PubId;
-    public readonly PubName PubName;
-    public readonly OrderDate OrderDate;
+    public readonly SalesOrderId SalesOrderId = aggregateId;
+    public readonly SalesOrderNumber SalesOrderNumber = salesOrderNumber;
+    public readonly PubId PubId = pubId;
+    public readonly PubName PubName = pubName;
+    public readonly OrderDate OrderDate = orderDate;
 
-    public readonly IEnumerable<SalesOrderRowDto> Rows;
-
-    public SalesOrderCreated(SalesOrderId aggregateId, SalesOrderNumber salesOrderNumber, PubId pubId, PubName pubName,
-        OrderDate orderDate, IEnumerable<SalesOrderRowDto> rows) : base(aggregateId)
-    {
-        SalesOrderId = aggregateId;
-        SalesOrderNumber = salesOrderNumber;
-        
-        PubId = pubId;
-        PubName = pubName;
-        
-        OrderDate = orderDate;
-
-        Rows = rows;
-    }
+    public readonly IEnumerable<SalesOrderRowDto> Rows = rows;
 }

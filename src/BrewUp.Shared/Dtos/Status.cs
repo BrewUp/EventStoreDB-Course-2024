@@ -1,6 +1,6 @@
 ﻿namespace BrewUp.Shared.Dtos;
 
-public class Status: Enumeration
+public class Status(int id, string name) : Enumeration(id, name)
 {
 	public static Status Created = new Status(1, nameof(Created).ToLowerInvariant());
 	public static Status Sent = new Status(1, nameof(Sent).ToLowerInvariant());
@@ -8,11 +8,6 @@ public class Status: Enumeration
 	public static Status Cancelled = new Status(3, nameof(Cancelled).ToLowerInvariant());
 
 	public static IEnumerable<Status> List() => new[] { Sent, Completed, Cancelled};
-
-	public Status(int id, string name)
-		: base(id, name)
-	{
-	}
 
 	public static Status FromName(string name)
 	{

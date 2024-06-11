@@ -4,18 +4,11 @@ using Muflone.Core;
 
 namespace Brewup.Purchases.Domain.Entities;
 
-public class PurchaseOrderLine : Entity
+public class PurchaseOrderLine(BeerId beerId, BeerName beerName, Quantity quantity, Cost cost)
+	: Entity
 {
-	public BeerId BeerId { get; }
-	public BeerName BeerName { get; }
-	public Quantity Quantity { get; }
-	public Cost Cost { get; }
-
-	public PurchaseOrderLine(BeerId beerId, BeerName beerName, Quantity quantity, Cost cost)
-	{
-		BeerId = beerId;
-		BeerName = beerName;
-		Quantity = quantity;
-		Cost = cost;
-	}
+	public BeerId BeerId { get; } = beerId;
+	public BeerName BeerName { get; } = beerName;
+	public Quantity Quantity { get; } = quantity;
+	public Cost Cost { get; } = cost;
 }

@@ -2,16 +2,10 @@
 
 namespace Brewup.Purchases.Domain.Entities;
 
-public class Quantity : ValueObject
+public class Quantity(double value, string unitOfMeasure) : ValueObject
 {
-	public double Value { get; }
-	public string UnitOfMeasure { get; }
-
-	public Quantity(double value, string unitOfMeasure)
-	{
-		Value = value;
-		UnitOfMeasure = unitOfMeasure;
-	}
+	public double Value { get; } = value;
+	public string UnitOfMeasure { get; } = unitOfMeasure;
 
 	protected override IEnumerable<object> GetEqualityComponents()
 	{

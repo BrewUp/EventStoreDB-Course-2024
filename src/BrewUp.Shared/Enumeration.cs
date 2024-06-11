@@ -4,16 +4,10 @@
 //https://www.planetgeek.ch/2009/07/01/enums-are-evil/
 namespace BrewUp.Shared
 {
-  public abstract class Enumeration : IComparable
+  public abstract class Enumeration(int id, string name) : IComparable
   {
-    public string Name { get; }
-    public int Id { get; }
-
-    protected Enumeration(int id, string name)
-    {
-      Id = id;
-      Name = name;
-    }
+    public string Name { get; } = name;
+    public int Id { get; } = id;
 
     public override string ToString() => Name;
 

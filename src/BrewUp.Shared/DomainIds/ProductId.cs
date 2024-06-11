@@ -2,9 +2,4 @@
 
 namespace BrewUp.Shared.DomainIds;
 
-public sealed class ProductId : DomainId
-{
-    public ProductId(Guid value) : base(value)
-    {
-    }
-}
+public sealed class ProductId(Guid value) : DomainId(value);

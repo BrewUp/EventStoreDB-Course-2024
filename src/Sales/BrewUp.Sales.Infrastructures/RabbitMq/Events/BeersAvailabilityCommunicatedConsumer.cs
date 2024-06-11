@@ -10,20 +10,15 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Sales.Infrastructures.RabbitMq.Events;
 
-public sealed class BeersAvailabilityCommunicatedConsumer : IntegrationEventsConsumerBase<BeerAvailabilityCommunicated>
+public sealed class BeersAvailabilityCommunicatedConsumer(
+    IServiceBus serviceBus,
+    IQueries<SalesBeerAvailability> queries,
+    IMufloneConnectionFactory mufloneConnectionFactory,
+    ILoggerFactory loggerFactory)
+    : IntegrationEventsConsumerBase<BeerAvailabilityCommunicated>(mufloneConnectionFactory, loggerFactory)
 {
-    protected override IEnumerable<IIntegrationEventHandlerAsync<BeerAvailabilityCommunicated>> HandlersAsync { get; }
-    
-    public BeersAvailabilityCommunicatedConsumer(IServiceBus serviceBus,
-        IQueries<SalesBeerAvailability> queries,
-        IMufloneConnectionFactory mufloneConnectionFactory,
-        ILoggerFactory loggerFactory) : base(mufloneConnectionFactory, loggerFactory)
+    protected override IEnumerable<IIntegrationEventHandlerAsync<BeerAvailabilityCommunicated>> HandlersAsync { get; } = new List<IIntegrationEventHandlerAsync<BeerAvailabilityCommunicated>>
     {
-        HandlersAsync = new List<IIntegrationEventHandlerAsync<BeerAvailabilityCommunicated>>
-        {
-            new BeerAvailabilityCommunicatedEventHandler(loggerFactory, serviceBus, queries)
-        };
-    }
-
-    
+        new BeerAvailabilityCommunicatedEventHandler(loggerFactory, serviceBus, queries)
+    };
 }

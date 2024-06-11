@@ -4,16 +4,10 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Sales.Messages.Commands;
 
-public sealed class CreateSalesBeerAvailablity : Command
+public sealed class CreateSalesBeerAvailablity(BeerId aggregateId, BeerName beerName, Availability availability)
+    : Command(aggregateId)
 {
-    public readonly BeerId BeerId;
-    public readonly BeerName BeerName;
-    public readonly Availability Availability;
-    
-    public CreateSalesBeerAvailablity(BeerId aggregateId, BeerName beerName, Availability availability) : base(aggregateId)
-    {
-        BeerId = aggregateId;
-        BeerName = beerName;
-        Availability = availability;
-    }
+    public readonly BeerId BeerId = aggregateId;
+    public readonly BeerName BeerName = beerName;
+    public readonly Availability Availability = availability;
 }

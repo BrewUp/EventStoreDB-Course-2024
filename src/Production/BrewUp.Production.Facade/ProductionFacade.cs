@@ -7,27 +7,20 @@ using Muflone.Persistence;
 
 namespace BrewUp.Production.Facade;
 
-public sealed class ProductionFacade : IProductionFacade
+public sealed class ProductionFacade(
+    IServiceBus serviceBus,
+    IProductionOrderService productionOrderService)
+    : IProductionFacade
 {
-    private readonly IServiceBus _serviceBus;
-    private readonly IProductionOrderService _productionOrderService;
-
-    public ProductionFacade(IServiceBus serviceBus,
-        IProductionOrderService productionOrderService)
-    {
-        _serviceBus = serviceBus;
-        _productionOrderService = productionOrderService;
-    }
-
     public async Task<PagedResult<ProductionOrderJson>> GetProductionOrdersAsync(CancellationToken cancellationToken)
     {
-        return await _productionOrderService.GetProductionOrdersAsync(cancellationToken);
+        return await productionOrderService.GetProductionOrdersAsync(cancellationToken);
     }
 
     public async Task CompleteProductionOrderAsync(Guid productionOrderId, CancellationToken cancellationToken)
     {
         // Check Order exists
         CompleteProductionOrder completeProductionOrder = new(new ProductionOrderId(productionOrderId), Guid.NewGuid());
-        await _serviceBus.SendAsync(completeProductionOrder, cancellationToken);
+        await serviceBus.SendAsync(completeProductionOrder, cancellationToken);
     }
 }

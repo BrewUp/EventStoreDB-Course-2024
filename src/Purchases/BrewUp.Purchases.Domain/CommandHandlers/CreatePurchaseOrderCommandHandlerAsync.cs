@@ -5,12 +5,9 @@ using Muflone.Persistence;
 
 namespace BrewUp.Purchases.Domain.CommandHandlers;
 
-public class CreatePurchaseOrderCommandHandlerAsync : CommandHandlerBaseAsync<CreatePurchaseOrder>
+public class CreatePurchaseOrderCommandHandlerAsync(IRepository repository, ILoggerFactory loggerFactory)
+    : CommandHandlerBaseAsync<CreatePurchaseOrder>(repository, loggerFactory)
 {
-    public CreatePurchaseOrderCommandHandlerAsync(IRepository repository, ILoggerFactory loggerFactory) : base(repository, loggerFactory)
-    {
-    }
-
     public override async Task ProcessCommand(CreatePurchaseOrder command, CancellationToken cancellationToken = default)
     {
         var aggregate = PurchaseOrder.Create(command.PurchaseOrderId, command.MessageId, command.SupplierId, command.OrderDate, command.Rows);

@@ -4,21 +4,17 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Purchases.Messages.Events;
 
-public sealed class PurchaseOrderCreated : DomainEvent
+public sealed class PurchaseOrderCreated(
+    PurchaseOrderId aggregateId,
+    Guid correlationId,
+    SupplierId supplierId,
+    OrderDate orderDate,
+    IEnumerable<PurchaseOrderRow> rows)
+    : DomainEvent(aggregateId, correlationId)
 {
-    public readonly PurchaseOrderId PurchaseOrderId;
-    public readonly SupplierId SupplierId;
-    public readonly OrderDate OrderDate;
+    public readonly PurchaseOrderId PurchaseOrderId = aggregateId;
+    public readonly SupplierId SupplierId = supplierId;
+    public readonly OrderDate OrderDate = orderDate;
 
-    public readonly IEnumerable<PurchaseOrderRow> Rows;
-
-    public PurchaseOrderCreated(PurchaseOrderId aggregateId, Guid correlationId, SupplierId supplierId,
-        OrderDate orderDate, IEnumerable<PurchaseOrderRow> rows) : base(aggregateId, correlationId)
-    {
-        PurchaseOrderId = aggregateId;
-        SupplierId = supplierId;
-        OrderDate = orderDate;
-        
-        Rows = rows;
-    }
+    public readonly IEnumerable<PurchaseOrderRow> Rows = rows;
 }

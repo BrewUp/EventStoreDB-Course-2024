@@ -6,12 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BrewUp.Purchases.ReadModel.Services;
 
-public class PurchaseOrderService : ServiceBase, IPurchaseOrderService
+public class PurchaseOrderService(ILoggerFactory loggerFactory, IPersister persister)
+	: ServiceBase(loggerFactory, persister), IPurchaseOrderService
 {
-	public PurchaseOrderService(ILoggerFactory loggerFactory, IPersister persister) : base(loggerFactory, persister)
-	{
-	}
-
 	public async Task CreatePurchaseOrderAsync(PurchaseOrderId purchaseOrderId, OrderDate date, IEnumerable<PurchaseOrderRow> rows,
 		SupplierId supplierId, CancellationToken cancellationToken)
 	{

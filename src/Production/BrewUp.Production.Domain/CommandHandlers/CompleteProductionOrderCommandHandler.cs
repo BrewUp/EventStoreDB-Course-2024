@@ -5,12 +5,9 @@ using Muflone.Persistence;
 
 namespace BrewUp.Production.Domain.CommandHandlers;
 
-public sealed class CompleteProductionOrderCommandHandler : CommandHandlerBaseAsync<CompleteProductionOrder>
+public sealed class CompleteProductionOrderCommandHandler(IRepository repository, ILoggerFactory loggerFactory)
+    : CommandHandlerBaseAsync<CompleteProductionOrder>(repository, loggerFactory)
 {
-    public CompleteProductionOrderCommandHandler(IRepository repository, ILoggerFactory loggerFactory) : base(repository, loggerFactory)
-    {
-    }
-
     public override async Task ProcessCommand(CompleteProductionOrder command, CancellationToken cancellationToken = default)
     {
         var aggregate = await Repository.GetByIdAsync<ProductionOrder>(command.AggregateId.Value);

@@ -8,12 +8,11 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Sales.Infrastructures.RabbitMq.Commands;
 
-public sealed class CompleteSalesOrderConsumer : CommandConsumerBase<CompleteSalesOrder>
+public sealed class CompleteSalesOrderConsumer(
+    IRepository repository,
+    IMufloneConnectionFactory connectionFactory,
+    ILoggerFactory loggerFactory)
+    : CommandConsumerBase<CompleteSalesOrder>(repository, connectionFactory, loggerFactory)
 {
-    protected override ICommandHandlerAsync<CompleteSalesOrder> HandlerAsync { get; }
-    
-    public CompleteSalesOrderConsumer(IRepository repository, IMufloneConnectionFactory connectionFactory, ILoggerFactory loggerFactory) : base(repository, connectionFactory, loggerFactory)
-    {
-        HandlerAsync = new CompleteSalesOrderCommandHandler(repository, loggerFactory);
-    }
+    protected override ICommandHandlerAsync<CompleteSalesOrder> HandlerAsync { get; } = new CompleteSalesOrderCommandHandler(repository, loggerFactory);
 }

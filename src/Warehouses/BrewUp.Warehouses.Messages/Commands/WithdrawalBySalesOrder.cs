@@ -4,15 +4,9 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Warehouses.Messages.Commands;
 
-public sealed class WithdrawalBySalesOrder : Command
+public sealed class WithdrawalBySalesOrder(BeerId aggregateId, Guid commitId, Quantity quantity)
+    : Command(aggregateId, commitId)
 {
-    public readonly BeerId BeerId;
-    public readonly Quantity Quantity;
-    
-    public WithdrawalBySalesOrder(BeerId aggregateId, Guid commitId, Quantity quantity) 
-        : base(aggregateId, commitId)
-    {
-        BeerId = aggregateId;
-        Quantity = quantity;
-    }
+    public readonly BeerId BeerId = aggregateId;
+    public readonly Quantity Quantity = quantity;
 }

@@ -7,22 +7,16 @@ using MongoDB.Driver.Linq;
 
 namespace BrewUp.Registries.ReadModel.Queries;
 
-public sealed class BeerQueries : IQueries<Beer>
+public sealed class BeerQueries(IMongoClient mongoClient) : IQueries<Beer>
 {
-    private readonly IMongoClient _mongoClient;
     private IMongoDatabase _database;
     
     public string DatabaseName { get; private set; }
 
-    public BeerQueries(IMongoClient mongoClient)
-    {
-        _mongoClient = mongoClient;
-    }
-
     public void SetDatabaseName(string databaseName)
     {
         DatabaseName = databaseName;
-        _database = _mongoClient.GetDatabase(databaseName);
+        _database = mongoClient.GetDatabase(databaseName);
     }
 
     public async Task<Beer> GetByIdAsync(string id, CancellationToken cancellationToken)

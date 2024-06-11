@@ -2,9 +2,4 @@
 
 namespace BrewUp.Shared.DomainIds;
 
-public class PurchaseOrderId : DomainId
-{
-	public PurchaseOrderId(Guid value) : base(value)
-	{
-	}
-}
+public class PurchaseOrderId(Guid value) : DomainId(value);

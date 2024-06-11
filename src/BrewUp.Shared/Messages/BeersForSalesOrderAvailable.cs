@@ -4,14 +4,9 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Shared.Messages;
 
-public sealed class BeersForSalesOrderAvailable : IntegrationEvent
+public sealed class BeersForSalesOrderAvailable(OrderId aggregateId, IEnumerable<BrewedRow> rows)
+    : IntegrationEvent(aggregateId)
 {
-    public readonly OrderId OrderId;
-    public readonly IEnumerable<BrewedRow> Rows;
-    
-    public BeersForSalesOrderAvailable(OrderId aggregateId, IEnumerable<BrewedRow> rows) : base(aggregateId)
-    {
-        OrderId = aggregateId;
-        Rows = rows;
-    }
+    public readonly OrderId OrderId = aggregateId;
+    public readonly IEnumerable<BrewedRow> Rows = rows;
 }

@@ -5,17 +5,14 @@ using Muflone.Persistence;
 
 namespace BrewUp.Sales.Domain.CommandHandlers;
 
-public sealed class CompleteSalesOrderCommandHandler : CommandHandlerBaseAsync<CompleteSalesOrder>
+public sealed class CompleteSalesOrderCommandHandler(IRepository repository, ILoggerFactory loggerFactory)
+    : CommandHandlerBaseAsync<CompleteSalesOrder>(repository, loggerFactory)
 {
-    public CompleteSalesOrderCommandHandler(IRepository repository, ILoggerFactory loggerFactory) : base(repository, loggerFactory)
-    {
-    }
-
     public override async Task ProcessCommand(CompleteSalesOrder command, CancellationToken cancellationToken = default)
     {
         var aggregate = await Repository.GetByIdAsync<SalesOrder>(command.AggregateId.Value);
         aggregate.Complete(command.SalesOrderId, command.Rows);
 
-        await Repository.SaveAsync(aggregate, Guid.NewGuid());
+        await Repository.SaveAsync(aggregate, Guid.NewGuid(), cancellationToken);
     }
 }

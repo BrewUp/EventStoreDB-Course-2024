@@ -5,21 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace BrewUp.Sales.ReadModel.EventHandlers;
 
-public sealed class SalesOrderCreatedEventHandlerAsync : DomainEventHandlerBase<SalesOrderCreated>
+public sealed class SalesOrderCreatedEventHandlerAsync(
+    ILoggerFactory loggerFactory,
+    ISalesOrderService salesOrderService)
+    : DomainEventHandlerBase<SalesOrderCreated>(loggerFactory)
 {
-    private readonly ISalesOrderService _salesOrderService;
-    
-    public SalesOrderCreatedEventHandlerAsync(ILoggerFactory loggerFactory,
-        ISalesOrderService salesOrderService) : base(loggerFactory)
-    {
-        _salesOrderService = salesOrderService;
-    }
-
     public override async Task HandleAsync(SalesOrderCreated @event, CancellationToken cancellationToken = new ())
     {
         try
         {
-            await _salesOrderService.CreateSalesOrderAsync(@event.SalesOrderId, @event.SalesOrderNumber, @event.PubId,
+            await salesOrderService.CreateSalesOrderAsync(@event.SalesOrderId, @event.SalesOrderNumber, @event.PubId,
                 @event.PubName, @event.OrderDate, @event.Rows, cancellationToken);
         }
         catch (Exception ex)

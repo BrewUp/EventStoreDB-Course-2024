@@ -4,18 +4,14 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Shared.Messages.Sagas;
 
-public sealed class BeerAvailabilityCommunicated : IntegrationEvent
+public sealed class BeerAvailabilityCommunicated(
+    BeerId aggregateId,
+    Guid correlationId,
+    BeerName beerName,
+    Availability availability)
+    : IntegrationEvent(aggregateId, correlationId)
 {
-    public readonly BeerId BeerId;
-    public readonly BeerName BeerName;
-    public readonly Availability Availability;
-
-    public BeerAvailabilityCommunicated(BeerId aggregateId, Guid correlationId, BeerName beerName,
-        Availability availability) : base(aggregateId, correlationId)
-    {
-        BeerId = aggregateId;
-
-        BeerName = beerName;
-        Availability = availability;
-    }
+    public readonly BeerId BeerId = aggregateId;
+    public readonly BeerName BeerName = beerName;
+    public readonly Availability Availability = availability;
 }

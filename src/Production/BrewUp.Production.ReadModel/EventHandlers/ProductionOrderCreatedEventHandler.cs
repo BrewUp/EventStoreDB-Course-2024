@@ -5,19 +5,14 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Production.ReadModel.EventHandlers;
 
-public sealed class ProductionOrderCreatedEventHandler : DomainEventHandlerAsync<ProductionOrderCreated>
+public sealed class ProductionOrderCreatedEventHandler(
+    ILoggerFactory loggerFactory,
+    IProductionOrderService productionOrderService)
+    : DomainEventHandlerAsync<ProductionOrderCreated>(loggerFactory)
 {
-    private readonly IProductionOrderService _productionOrderService;
-    
-    public ProductionOrderCreatedEventHandler(ILoggerFactory loggerFactory,
-        IProductionOrderService productionOrderService) : base(loggerFactory)
-    {
-        _productionOrderService = productionOrderService;
-    }
-
     public override async Task HandleAsync(ProductionOrderCreated @event, CancellationToken cancellationToken = new())
     {
-        await _productionOrderService.CreateProductionOrderAsync(@event.ProductionOrderId, @event.ProductionOrderNumber,
+        await productionOrderService.CreateProductionOrderAsync(@event.ProductionOrderId, @event.ProductionOrderNumber,
             @event.OrderDate, @event.Rows, cancellationToken);
     }
 }

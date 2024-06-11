@@ -7,14 +7,10 @@ using Muflone.Persistence;
 
 namespace BrewUp.Sales.ReadModel.Adapters;
 
-public sealed class BeersForSalesOrderAvailableEventHandler : IntegrationEventHandlerAsync<BeersForSalesOrderAvailable>
+public sealed class BeersForSalesOrderAvailableEventHandler(ILoggerFactory loggerFactory, IServiceBus serviceBus)
+    : IntegrationEventHandlerAsync<BeersForSalesOrderAvailable>(loggerFactory)
 {
-    private readonly IServiceBus _serviceBus;
-    
-    public BeersForSalesOrderAvailableEventHandler(ILoggerFactory loggerFactory, IServiceBus serviceBus) : base(loggerFactory)
-    {
-        _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
-    }
+    private readonly IServiceBus _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
 
     public override async Task HandleAsync(BeersForSalesOrderAvailable @event, CancellationToken cancellationToken = new ())
     {

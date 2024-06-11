@@ -2,14 +2,8 @@
 {
     public sealed class CorsModule : IModule
     {
-        public bool IsEnabled { get; }
-        public int Order { get; }
-
-        public CorsModule()
-        {
-            IsEnabled = true;
-            Order = 0;
-        }
+        public bool IsEnabled { get; } = true;
+        public int Order { get; } = 0;
 
         public IServiceCollection RegisterModule(WebApplicationBuilder builder)
         {

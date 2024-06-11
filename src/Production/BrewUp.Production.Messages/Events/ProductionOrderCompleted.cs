@@ -6,14 +6,9 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Production.Messages.Events;
 
-public sealed class ProductionOrderCompleted : DomainEvent
+public sealed class ProductionOrderCompleted(ProductionOrderId aggregateId, IEnumerable<ProductionOrderRow> rows)
+    : DomainEvent(aggregateId)
 {
-    public readonly ProductionOrderId ProductionOrderId;
-    public readonly IImmutableList<ProductionOrderRow> Rows;
-    
-    public ProductionOrderCompleted(ProductionOrderId aggregateId, IEnumerable<ProductionOrderRow> rows) : base(aggregateId)
-    {
-        ProductionOrderId = aggregateId;
-        Rows = rows.ToImmutableList();
-    }
+    public readonly ProductionOrderId ProductionOrderId = aggregateId;
+    public readonly IImmutableList<ProductionOrderRow> Rows = rows.ToImmutableList();
 }

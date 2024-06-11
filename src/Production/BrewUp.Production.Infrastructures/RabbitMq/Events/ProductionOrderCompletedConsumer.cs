@@ -9,19 +9,16 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Production.Infrastructures.RabbitMq.Events;
 
-public sealed class ProductionOrderCompletedConsumer : DomainEventsConsumerBase<ProductionOrderCompleted>
+public sealed class ProductionOrderCompletedConsumer(
+    IProductionOrderService productionOrderService,
+    IEventBus eventBus,
+    IMufloneConnectionFactory connectionFactory,
+    ILoggerFactory loggerFactory)
+    : DomainEventsConsumerBase<ProductionOrderCompleted>(connectionFactory, loggerFactory)
 {
-    protected override IEnumerable<IDomainEventHandlerAsync<ProductionOrderCompleted>> HandlersAsync { get; }
-
-    public ProductionOrderCompletedConsumer(IProductionOrderService productionOrderService,
-        IEventBus eventBus,
-        IMufloneConnectionFactory connectionFactory, ILoggerFactory loggerFactory) 
-        : base(connectionFactory, loggerFactory)
+    protected override IEnumerable<IDomainEventHandlerAsync<ProductionOrderCompleted>> HandlersAsync { get; } = new List<IDomainEventHandlerAsync<ProductionOrderCompleted>>
     {
-        HandlersAsync = new List<IDomainEventHandlerAsync<ProductionOrderCompleted>>
-        {
-            new ProductionOrderCompletedEventHandler(loggerFactory, productionOrderService),
-            new ProductionOrderCompletedForIntegrationEventHandler(loggerFactory, eventBus)
-        };
-    }
+        new ProductionOrderCompletedEventHandler(loggerFactory, productionOrderService),
+        new ProductionOrderCompletedForIntegrationEventHandler(loggerFactory, eventBus)
+    };
 }

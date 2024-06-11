@@ -2,16 +2,10 @@
 
 namespace Brewup.Purchases.Domain.Entities;
 
-public class Cost : ValueObject
+public class Cost(double value, string currency) : ValueObject
 {
-	public double Value { get; }
-	public string Currency { get; }
-
-	public Cost(double value, string currency)
-	{
-		Value = value;
-		Currency = currency;
-	}
+	public double Value { get; } = value;
+	public string Currency { get; } = currency;
 
 	protected override IEnumerable<object> GetEqualityComponents()
 	{

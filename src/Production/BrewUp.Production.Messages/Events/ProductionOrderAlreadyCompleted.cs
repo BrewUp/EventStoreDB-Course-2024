@@ -3,12 +3,7 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Production.Messages.Events;
 
-public sealed class ProductionOrderAlreadyCompleted : DomainEvent
+public sealed class ProductionOrderAlreadyCompleted(ProductionOrderId aggregateId) : DomainEvent(aggregateId)
 {
-    public readonly ProductionOrderId ProductionOrderId;
-    
-    public ProductionOrderAlreadyCompleted(ProductionOrderId aggregateId) : base(aggregateId)
-    {
-        ProductionOrderId = aggregateId;
-    }
+    public readonly ProductionOrderId ProductionOrderId = aggregateId;
 }

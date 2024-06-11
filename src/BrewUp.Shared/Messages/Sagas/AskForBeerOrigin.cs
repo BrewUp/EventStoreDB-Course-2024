@@ -3,13 +3,7 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Shared.Messages.Sagas;
 
-public sealed class AskForBeerOrigin : Command
+public sealed class AskForBeerOrigin(BeerId aggregateId, Guid commitId) : Command(aggregateId, commitId)
 {
-    public BeerId BeerId;
-    
-    public AskForBeerOrigin(BeerId aggregateId, Guid commitId) 
-        : base(aggregateId, commitId)
-    {
-        BeerId = aggregateId;
-    }
+    public BeerId BeerId = aggregateId;
 }

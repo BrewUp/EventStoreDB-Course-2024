@@ -12,18 +12,15 @@ using Muflone.Persistence;
 
 namespace BrewUp.Sales.Facade;
 
-public sealed class SalesFacade : ISalesFacade
+public sealed class SalesFacade(
+    IServiceBus serviceBus,
+    ISalesOrderService salesOrderService,
+    IQueries<SalesBeerAvailability> queries)
+    : ISalesFacade
 {
-    private readonly IServiceBus _serviceBus;
-    private readonly ISalesOrderService _salesOrderService;
-    private readonly IQueries<SalesBeerAvailability> _queries;
-
-    public SalesFacade(IServiceBus serviceBus, ISalesOrderService salesOrderService, IQueries<SalesBeerAvailability> queries)
-    {
-        _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
-        _salesOrderService = salesOrderService ?? throw new ArgumentNullException(nameof(salesOrderService));
-        _queries = queries ?? throw new ArgumentNullException(nameof(queries));
-    }
+    private readonly IServiceBus _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
+    private readonly ISalesOrderService _salesOrderService = salesOrderService ?? throw new ArgumentNullException(nameof(salesOrderService));
+    private readonly IQueries<SalesBeerAvailability> _queries = queries ?? throw new ArgumentNullException(nameof(queries));
 
     public async Task<string> CreateOrderAsync(SalesOrderJson body, CancellationToken cancellationToken)
     {

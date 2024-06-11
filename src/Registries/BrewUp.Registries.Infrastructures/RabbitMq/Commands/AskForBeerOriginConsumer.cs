@@ -11,13 +11,13 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Registries.Infrastructures.RabbitMq.Commands;
 
-public sealed class AskForBeerOriginConsumer : CommandConsumerBase<AskForBeerOrigin>
+public sealed class AskForBeerOriginConsumer(
+    IQueries<Beer> queries,
+    IEventBus eventBus,
+    IRepository repository,
+    IMufloneConnectionFactory connectionFactory,
+    ILoggerFactory loggerFactory)
+    : CommandConsumerBase<AskForBeerOrigin>(repository, connectionFactory, loggerFactory)
 {
-    protected override ICommandHandlerAsync<AskForBeerOrigin> HandlerAsync { get; }
-
-    public AskForBeerOriginConsumer(IQueries<Beer> queries, IEventBus eventBus, IRepository repository,
-        IMufloneConnectionFactory connectionFactory, ILoggerFactory loggerFactory) : base(repository, connectionFactory, loggerFactory)
-    {
-        HandlerAsync = new AskForBeerOriginCommandHandler(repository, loggerFactory, queries, eventBus);
-    }
+    protected override ICommandHandlerAsync<AskForBeerOrigin> HandlerAsync { get; } = new AskForBeerOriginCommandHandler(repository, loggerFactory, queries, eventBus);
 }

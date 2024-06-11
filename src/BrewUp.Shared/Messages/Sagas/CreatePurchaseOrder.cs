@@ -5,25 +5,20 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Shared.Messages.Sagas;
 
-public sealed class CreatePurchaseOrder : Command
+public sealed class CreatePurchaseOrder(
+    PurchaseOrderId aggregateId,
+    Guid commitId,
+    PurchaseOrderNumber purchaseOrderNumber,
+    SupplierId supplierId,
+    OrderDate orderDate,
+    IEnumerable<PurchaseOrderRow> rows)
+    : Command(aggregateId, commitId)
 {
-    public readonly PurchaseOrderId PurchaseOrderId;
-    public readonly PurchaseOrderNumber PurchaseOrderNumber;
+    public readonly PurchaseOrderId PurchaseOrderId = aggregateId;
+    public readonly PurchaseOrderNumber PurchaseOrderNumber = purchaseOrderNumber;
     
-    public readonly SupplierId SupplierId;
-    public readonly OrderDate OrderDate;
+    public readonly SupplierId SupplierId = supplierId;
+    public readonly OrderDate OrderDate = orderDate;
     
-    public readonly IEnumerable<PurchaseOrderRow> Rows;
-    
-    public CreatePurchaseOrder(PurchaseOrderId aggregateId, Guid commitId, PurchaseOrderNumber purchaseOrderNumber,
-        SupplierId supplierId, OrderDate orderDate, IEnumerable<PurchaseOrderRow> rows) : base(aggregateId, commitId)
-    {
-        PurchaseOrderId = aggregateId;
-        PurchaseOrderNumber = purchaseOrderNumber;
-
-        SupplierId = supplierId;
-        OrderDate = orderDate;
-        
-        Rows = rows;
-    }
+    public readonly IEnumerable<PurchaseOrderRow> Rows = rows;
 }

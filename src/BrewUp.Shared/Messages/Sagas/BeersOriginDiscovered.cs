@@ -4,15 +4,9 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Shared.Messages.Sagas;
 
-public sealed class BeerOriginDiscovered : IntegrationEvent
+public sealed class BeerOriginDiscovered(BeerId aggregateId, Guid correlationId, HomeBrewed homeBrewed)
+    : IntegrationEvent(aggregateId, correlationId)
 {
-    public readonly BeerId BeerId;
-    public readonly HomeBrewed HomeBrewed; 
-    
-    public BeerOriginDiscovered(BeerId aggregateId, Guid correlationId, HomeBrewed homeBrewed) 
-        : base(aggregateId, correlationId)
-    {
-        BeerId = aggregateId;
-        HomeBrewed = homeBrewed;
-    }
+    public readonly BeerId BeerId = aggregateId;
+    public readonly HomeBrewed HomeBrewed = homeBrewed;
 }

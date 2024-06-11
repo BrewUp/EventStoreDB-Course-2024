@@ -5,14 +5,12 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Warehouses.ReadModel.EventHandlers;
 
-public sealed class BeerAvailabilityWithdrawnEventHandler : DomainEventHandlerAsync<BeerAvailabilityWithdrawn>
+public sealed class BeerAvailabilityWithdrawnEventHandler(
+    ILoggerFactory loggerFactory,
+    IBeerAvailabilityService beerAvailabilityService)
+    : DomainEventHandlerAsync<BeerAvailabilityWithdrawn>(loggerFactory)
 {
-    private readonly IBeerAvailabilityService _beerAvailabilityService;
-    
-    public BeerAvailabilityWithdrawnEventHandler(ILoggerFactory loggerFactory, IBeerAvailabilityService beerAvailabilityService) : base(loggerFactory)
-    {
-        _beerAvailabilityService = beerAvailabilityService ?? throw new ArgumentNullException(nameof(beerAvailabilityService));
-    }
+    private readonly IBeerAvailabilityService _beerAvailabilityService = beerAvailabilityService ?? throw new ArgumentNullException(nameof(beerAvailabilityService));
 
     public override async Task HandleAsync(BeerAvailabilityWithdrawn @event, CancellationToken cancellationToken = new ())
     {

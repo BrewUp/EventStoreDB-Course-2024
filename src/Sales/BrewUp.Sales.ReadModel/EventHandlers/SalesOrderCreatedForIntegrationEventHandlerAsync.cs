@@ -7,21 +7,15 @@ using Muflone;
 
 namespace BrewUp.Sales.ReadModel.EventHandlers;
 
-public sealed class SalesOrderCreatedForIntegrationEventHandlerAsync : DomainEventHandlerBase<SalesOrderCreated>
+public sealed class SalesOrderCreatedForIntegrationEventHandlerAsync(
+    ILoggerFactory loggerFactory,
+    IEventBus eventBus) : DomainEventHandlerBase<SalesOrderCreated>(loggerFactory)
 {
-    private readonly IEventBus _eventBus;
-    
-    public SalesOrderCreatedForIntegrationEventHandlerAsync(ILoggerFactory loggerFactory,
-        IEventBus eventBus) : base(loggerFactory)
-    {
-        _eventBus = eventBus;
-    }
-
     public override async Task HandleAsync(SalesOrderCreated @event, CancellationToken cancellationToken = new ())
     {
         BeersForSaleRequested beersForSaleRequested = new(new OrderId(@event.SalesOrderId.Value),
             Guid.NewGuid(), 
             @event.Rows.Select(x => new BeerCommittedRow(x.BeerId.Value, x.BeerName.Value, x.Quantity)));
-        await _eventBus.PublishAsync(beersForSaleRequested, cancellationToken);
+        await eventBus.PublishAsync(beersForSaleRequested, cancellationToken);
     }
 }

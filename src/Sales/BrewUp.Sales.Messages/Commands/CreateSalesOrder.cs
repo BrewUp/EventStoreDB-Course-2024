@@ -6,29 +6,22 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Sales.Messages.Commands;
 
-public sealed class CreateSalesOrder : Command
+public sealed class CreateSalesOrder(
+    SalesOrderId aggregateId,
+    SalesOrderNumber salesOrderNumber,
+    PubId pubId,
+    PubName pubName,
+    OrderDate orderDate,
+    IEnumerable<SalesOrderRowDto> lines)
+    : Command(aggregateId)
 {
-    public readonly SalesOrderId SalesOrderId;
-    public readonly SalesOrderNumber SalesOrderNumber;
+    public readonly SalesOrderId SalesOrderId = aggregateId;
+    public readonly SalesOrderNumber SalesOrderNumber = salesOrderNumber;
     
-    public readonly PubId PubId;
-    public readonly PubName PubName;
+    public readonly PubId PubId = pubId;
+    public readonly PubName PubName = pubName;
     
-    public readonly OrderDate OrderDate;
+    public readonly OrderDate OrderDate = orderDate;
 
-    public readonly IEnumerable<SalesOrderRowDto> Lines;
-
-    public CreateSalesOrder(SalesOrderId aggregateId, SalesOrderNumber salesOrderNumber, PubId pubId, PubName pubName,
-        OrderDate orderDate, IEnumerable<SalesOrderRowDto> lines) : base(aggregateId)
-    {
-        SalesOrderId = aggregateId;
-        SalesOrderNumber = salesOrderNumber;
-        
-        PubId = pubId;
-        PubName = pubName;
-        
-        OrderDate = orderDate;
-
-        Lines = lines;
-    }
+    public readonly IEnumerable<SalesOrderRowDto> Lines = lines;
 }

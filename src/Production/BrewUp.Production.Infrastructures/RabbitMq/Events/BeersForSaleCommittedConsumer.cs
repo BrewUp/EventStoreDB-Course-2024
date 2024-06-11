@@ -8,17 +8,14 @@ using Muflone.Transport.RabbitMQ.Consumers;
 
 namespace BrewUp.Production.Infrastructures.RabbitMq.Events;
 
-public sealed class BeersForSaleCommittedConsumer : IntegrationEventsConsumerBase<BeersForSaleCommitted>
+public sealed class BeersForSaleCommittedConsumer(
+    IServiceBus serviceBus,
+    IMufloneConnectionFactory mufloneConnectionFactory,
+    ILoggerFactory loggerFactory)
+    : IntegrationEventsConsumerBase<BeersForSaleCommitted>(mufloneConnectionFactory, loggerFactory)
 {
-    protected override IEnumerable<IIntegrationEventHandlerAsync<BeersForSaleCommitted>> HandlersAsync { get; }
-
-    public BeersForSaleCommittedConsumer(IServiceBus serviceBus,
-        IMufloneConnectionFactory mufloneConnectionFactory,
-        ILoggerFactory loggerFactory) : base(mufloneConnectionFactory, loggerFactory)
+    protected override IEnumerable<IIntegrationEventHandlerAsync<BeersForSaleCommitted>> HandlersAsync { get; } = new List<IIntegrationEventHandlerAsync<BeersForSaleCommitted>>
     {
-        HandlersAsync = new List<IIntegrationEventHandlerAsync<BeersForSaleCommitted>>
-        {
-            new BeersForSaleCommittedEventHandler(loggerFactory, serviceBus)
-        };
-    }
+        new BeersForSaleCommittedEventHandler(loggerFactory, serviceBus)
+    };
 }

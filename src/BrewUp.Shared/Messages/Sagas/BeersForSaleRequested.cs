@@ -5,15 +5,9 @@ using Muflone.Messages.Events;
 
 namespace BrewUp.Shared.Messages.Sagas;
 
-public sealed class BeersForSaleRequested : IntegrationEvent
+public sealed class BeersForSaleRequested(OrderId aggregateId, Guid correlationId, IEnumerable<BeerCommittedRow> rows)
+    : IntegrationEvent(aggregateId, correlationId)
 {
-    public readonly OrderId OrderId;
-    public readonly IEnumerable<BeerCommittedRow> Rows;
-
-    public BeersForSaleRequested(OrderId aggregateId, Guid correlationId, IEnumerable<BeerCommittedRow> rows) : base(
-        aggregateId, correlationId)
-    {
-        OrderId = aggregateId;
-        Rows = rows;
-    }
+    public readonly OrderId OrderId = aggregateId;
+    public readonly IEnumerable<BeerCommittedRow> Rows = rows;
 }

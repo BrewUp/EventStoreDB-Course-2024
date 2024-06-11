@@ -9,19 +9,16 @@ using Muflone.Persistence;
 
 namespace BrewUp.Warehouses.ReadModel.Adapters;
 
-public sealed class BeersBrewedEventHandler : IntegrationEventHandlerAsync<BeersBrewed>
+public sealed class BeersBrewedEventHandler(
+    ILoggerFactory loggerFactory,
+    IServiceBus serviceBus,
+    IEventBus eventBus,
+    IBeerAvailabilityService beerAvailabilityService)
+    : IntegrationEventHandlerAsync<BeersBrewed>(loggerFactory)
 {
-    private readonly IServiceBus _serviceBus;
-    private readonly IEventBus _eventBus;
-    private readonly IBeerAvailabilityService _beerAvailabilityService;
-
-    public BeersBrewedEventHandler(ILoggerFactory loggerFactory, IServiceBus serviceBus,
-        IEventBus eventBus, IBeerAvailabilityService beerAvailabilityService) : base(loggerFactory)
-    {
-        _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
-        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        _beerAvailabilityService = beerAvailabilityService?? throw new ArgumentNullException(nameof(beerAvailabilityService));
-    }
+    private readonly IServiceBus _serviceBus = serviceBus ?? throw new ArgumentNullException(nameof(serviceBus));
+    private readonly IEventBus _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+    private readonly IBeerAvailabilityService _beerAvailabilityService = beerAvailabilityService?? throw new ArgumentNullException(nameof(beerAvailabilityService));
 
     /// <summary>
     /// If we try to manage Create and Load in the same handler, we will have a problem with the order of the messages.

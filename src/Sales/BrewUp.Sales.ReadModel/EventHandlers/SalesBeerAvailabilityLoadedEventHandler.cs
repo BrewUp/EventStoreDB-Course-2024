@@ -4,15 +4,12 @@ using Microsoft.Extensions.Logging;
 
 namespace BrewUp.Sales.ReadModel.EventHandlers;
 
-public sealed class SalesBeerAvailabilityLoadedEventHandler : DomainEventHandlerBase<SalesBeerAvailabilityLoaded>
+public sealed class SalesBeerAvailabilityLoadedEventHandler(
+    ILoggerFactory loggerFactory,
+    ISalesBeerAvailabilityService salesBeerAvailabilityService)
+    : DomainEventHandlerBase<SalesBeerAvailabilityLoaded>(loggerFactory)
 {
-    private readonly ISalesBeerAvailabilityService _salesBeerAvailabilityService;
-    
-    public SalesBeerAvailabilityLoadedEventHandler(ILoggerFactory loggerFactory,
-        ISalesBeerAvailabilityService salesBeerAvailabilityService) : base(loggerFactory)
-    {
-        _salesBeerAvailabilityService = salesBeerAvailabilityService ?? throw new ArgumentNullException(nameof(salesBeerAvailabilityService));
-    }
+    private readonly ISalesBeerAvailabilityService _salesBeerAvailabilityService = salesBeerAvailabilityService ?? throw new ArgumentNullException(nameof(salesBeerAvailabilityService));
 
     public override async Task HandleAsync(SalesBeerAvailabilityLoaded @event, CancellationToken cancellationToken = new ())
     {

@@ -1,27 +1,18 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY . .
-RUN dotnet restore 
-COPY . BrewUp/
-WORKDIR /src/BrewUp
-RUN dotnet build -c Release -o /app/build
-
-
-RUN dotnet restore
+RUN dotnet restore "BrewUp.Rest/BrewUp.Rest.csproj"
 COPY . .
 WORKDIR "/src/BrewUp.Rest"
-RUN dotnet build "BrewUp.Rest.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "BrewUp.Rest.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish "BrewUp.Rest.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

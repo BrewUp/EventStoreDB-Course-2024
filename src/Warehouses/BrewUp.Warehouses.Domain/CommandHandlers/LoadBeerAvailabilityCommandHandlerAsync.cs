@@ -10,7 +10,7 @@ public sealed class LoadBeerAvailabilityCommandHandlerAsync(IRepository reposito
 {
     public override async Task ProcessCommand(LoadBeerAvailability command, CancellationToken cancellationToken = default)
     {
-        var aggregate = await Repository.GetByIdAsync<BeerAvailability>(command.AggregateId.Value);
+        var aggregate = await Repository.GetByIdAsync<BeerAvailability>(command.AggregateId.Value, cancellationToken);
         aggregate.LoadAvailability(command.Availability, command.MessageId);
         await Repository.SaveAsync(aggregate, Guid.NewGuid(), cancellationToken);
     }

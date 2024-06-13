@@ -35,7 +35,7 @@ public sealed class WarehousesFacade : IWarehousesFacade
             }
             else
             {
-                LoadBeerAvailability command = new(new BeerId(new Guid(body.BeerId)), body.Availability);
+                LoadBeerAvailability command = new(new BeerId(new Guid(body.BeerId)), Guid.NewGuid(), body.Availability);
                 await _serviceBus.SendAsync(command, cancellationToken);
             }
         }

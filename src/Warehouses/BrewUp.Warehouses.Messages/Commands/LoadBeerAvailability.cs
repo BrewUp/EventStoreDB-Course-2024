@@ -4,7 +4,7 @@ using Muflone.Messages.Commands;
 
 namespace BrewUp.Warehouses.Messages.Commands;
 
-public sealed class LoadBeerAvailability(BeerId aggregateId, Availability availability) : Command(aggregateId)
+public sealed class LoadBeerAvailability(BeerId aggregateId, Guid correlationId, Availability availability) : Command(aggregateId, correlationId)
 {
     public readonly BeerId BeerId = aggregateId;
     public readonly Availability Availability = availability;

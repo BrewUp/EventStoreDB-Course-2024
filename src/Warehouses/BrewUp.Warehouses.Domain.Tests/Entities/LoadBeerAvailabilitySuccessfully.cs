@@ -16,6 +16,7 @@ public sealed class LoadBeerAvailabilitySuccessfully : CommandSpecification<Load
     private readonly BeerName _beerName = new("BeerName");
     
     private readonly Availability _availability = new(10, "Lt");
+    private readonly Availability _availabilityLoaded = new(20, "Lt");
     
     private readonly Guid _correlationId = Guid.NewGuid();
     
@@ -26,7 +27,7 @@ public sealed class LoadBeerAvailabilitySuccessfully : CommandSpecification<Load
 
     protected override LoadBeerAvailability When()
     {
-        return new LoadBeerAvailability(_beerId, _availability);
+        return new LoadBeerAvailability(_beerId, _correlationId, _availability);
     }
 
     protected override ICommandHandlerAsync<LoadBeerAvailability> OnHandler()
@@ -36,6 +37,6 @@ public sealed class LoadBeerAvailabilitySuccessfully : CommandSpecification<Load
 
     protected override IEnumerable<DomainEvent> Expect()
     {
-        yield return new BeerAvailabilityLoaded(_beerId, _correlationId, _beerName, _availability);
+        yield return new BeerAvailabilityLoaded(_beerId, _correlationId, _beerName, _availabilityLoaded);
     }
 }
